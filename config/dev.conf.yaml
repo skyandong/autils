@@ -1,0 +1,8 @@
+app:
+  name: test
+  ports:
+    http: 7001
+    grpc: 7002
+  register: true
+  registerDelay: 1s
+  controlPort: 7009
