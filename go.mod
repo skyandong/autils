@@ -1,6 +1,6 @@
 module github.com/skyandong/autils
 
-go 1.16
+go 1.15
 
 require (
 	github.com/spf13/jwalterweatherman v1.1.0

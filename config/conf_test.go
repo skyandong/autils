@@ -47,7 +47,7 @@ func TestLoadConfig(t *testing.T) {
 	}
 	configFileName := Env + ".conf.yaml"
 	configPath := path.Join(configDir, configFileName)
-	err := LoadConfig(configPath, &c)
+	err := LoadConfig(configPath, &c, LevelInfo)
 	require.NoError(err)
 
 	assert.Equal("test", c.App.Name)

@@ -39,45 +39,7 @@ func SetLogLevel(level ConfLogLevel) {
 	jww.SetStdoutThreshold(jwwLogLevel)
 }
 
-func init() {
-	SetLogLevel(LevelInfo)
-}
-
-func New() *XConfig {
-	xViper := viper.New()
-	return &XConfig{xViper}
-}
-
-type XConfig struct {
-	viper *viper.Viper
-}
-
-func (conf *XConfig) SetConfigName(in string) {
-	conf.viper.SetConfigName(in)
-}
-
-func (conf *XConfig) SetConfigType(in string) {
-	conf.viper.SetConfigType(in)
-}
-
-func (conf *XConfig) AddConfigPath(in string) {
-	conf.viper.AddConfigPath(in)
-}
-
-func (conf *XConfig) ReadInConfig() error {
-	return conf.viper.ReadInConfig()
-}
-
-func (conf *XConfig) Unmarshal(rawVal interface{}) error {
-	return conf.viper.Unmarshal(rawVal)
-}
-
-// LoadConfig 加载配置文件
-/*
- * confPath 配置文件路径  如：/data/server/pro/conf.yaml
- * rawVal 配置文件映射的对象
- */
-func LoadConfig(confPath string, rawVal interface{}) (err error) {
+func LoadConfig(confPath string, rawVal interface{}, logLevel ConfLogLevel) (err error) {
 	confPath = strings.Replace(confPath, "\\", "/", -1)
 	fileDir := path.Dir(confPath)
 	fileFullName := path.Base(confPath)
@@ -91,7 +53,9 @@ func LoadConfig(confPath string, rawVal interface{}) (err error) {
 	}
 	nameLen := len(fileFullName) - len(fileExtension)
 	configName := fileFullName[:nameLen]
-	conf := New()
+
+	SetLogLevel(logLevel)
+	conf := viper.New()
 	conf.SetConfigName(configName) // 配置文件的名字
 	conf.SetConfigType(fileType)   // 配置文件的类型
 	conf.AddConfigPath(fileDir)    // 配置文件的路径
@@ -99,10 +63,8 @@ func LoadConfig(confPath string, rawVal interface{}) (err error) {
 	if err = conf.ReadInConfig(); err != nil {
 		return err
 	}
-
 	if err = conf.Unmarshal(rawVal); err != nil {
 		panic(fmt.Errorf("unable to decode into struct：  %s \n", err))
 	}
-
 	return nil
 }
