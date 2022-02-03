@@ -67,20 +67,22 @@ func (c Conf) Get(name string) *redis.Pool {
 }
 
 // Ensure exist and reachable
-func (c Conf) Ensure(names []string) error {
+func (c Conf) Ensure(names []string) (res map[string]*redis.Pool, err error) {
+	res = make(map[string]*redis.Pool)
 	for _, name := range names {
 		pool := c.Get(name)
 		if pool == nil {
-			return fmt.Errorf("redis %s not exist", name)
+			return nil, fmt.Errorf("redis %s not exist", name)
 		}
 		conn := pool.Get()
-		_, err := conn.Do("PING")
+		_, err = conn.Do("PING")
 		_ = conn.Close()
 		if err != nil {
-			return err
+			return nil, err
 		}
+
 	}
-	return nil
+	return res, nil
 }
 
 // Names returns keys in conf
