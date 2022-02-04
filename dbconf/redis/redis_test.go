@@ -17,28 +17,28 @@ const (
 func init() {
 	conf = make(Conf)
 	redis1 := &entry{
-		Address:        "localhost:6379",
-		Password:       "testredisxixihaha123",
+		Address:        "ip:port",
+		Password:       "",
+		Db:             0,
+		MaxIdle:        32,
+		PoolSize:       128,
+		ConnectTimeout: time.Second,
+		IdleTimeout:    time.Minute,
+		ReadTimeout:    100 * time.Millisecond,
+		WriteTimeout:   100 * time.Millisecond,
+	}
+	conf[testRedis1] = redis1
+
+	redis2 := &entry{
+		Address:        "ip:port",
+		Password:       "",
 		Db:             1,
 		MaxIdle:        32,
 		PoolSize:       128,
 		ConnectTimeout: time.Second,
 		IdleTimeout:    time.Minute,
-		ReadTimeout:    100 * time.Microsecond,
-		WriteTimeout:   100 * time.Microsecond,
-	}
-	conf[testRedis1] = redis1
-
-	redis2 := &entry{
-		Address:        "localhost:6379",
-		Password:       "testredisxixihaha123",
-		Db:             2,
-		MaxIdle:        32,
-		PoolSize:       128,
-		ConnectTimeout: time.Second,
-		IdleTimeout:    time.Minute,
-		ReadTimeout:    100 * time.Microsecond,
-		WriteTimeout:   100 * time.Microsecond,
+		ReadTimeout:    100 * time.Millisecond,
+		WriteTimeout:   100 * time.Millisecond,
 	}
 	conf[testRedis2] = redis2
 }
