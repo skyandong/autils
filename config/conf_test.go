@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 const (
@@ -34,9 +33,6 @@ type Conf struct {
 }
 
 func TestLoadConfig(t *testing.T) {
-	assert := assert.New(t)
-	require := require.New(t)
-
 	c := Conf{}
 	configDir := "config"
 	for i := 0; i < 3; i++ {
@@ -48,11 +44,11 @@ func TestLoadConfig(t *testing.T) {
 	configFileName := Env + ".conf.yaml"
 	configPath := path.Join(configDir, configFileName)
 	err := LoadConfig(configPath, &c, LevelInfo)
-	require.NoError(err)
+	assert.NoError(t, err)
 
-	assert.Equal("test", c.App.Name)
-	assert.Equal(map[string]int{"http": 7001, "grpc": 7002}, c.App.Ports)
-	assert.True(c.App.Register)
-	assert.Equal(time.Second, c.App.RegisterDelay)
-	assert.Equal(7009, c.App.ControlPort)
+	assert.Equal(t, "test", c.App.Name)
+	assert.Equal(t, map[string]int{"http": 7001, "grpc": 7002}, c.App.Ports)
+	assert.True(t, c.App.Register)
+	assert.Equal(t, time.Second, c.App.RegisterDelay)
+	assert.Equal(t, 7009, c.App.ControlPort)
 }
