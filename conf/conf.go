@@ -1,4 +1,4 @@
-package config
+package conf
 
 import (
 	"fmt"
@@ -9,11 +9,11 @@ import (
 	"github.com/spf13/viper"
 )
 
-// ConfLogLevel 加载配置输出日志级别
-type ConfLogLevel int
+// LogLevel 加载配置输出日志级别
+type LogLevel int
 
 const (
-	LevelTrace ConfLogLevel = iota
+	LevelTrace LogLevel = iota
 	LevelDebug
 	LevelInfo
 	LevelWarn
@@ -33,13 +33,13 @@ func stringInSlice(a string, list []string) bool {
 	return false
 }
 
-func SetLogLevel(level ConfLogLevel) {
+func SetLogLevel(level LogLevel) {
 	// 打印 viper 配置文件加载过程
 	jwwLogLevel := jww.Threshold(level)
 	jww.SetStdoutThreshold(jwwLogLevel)
 }
 
-func LoadConfig(confPath string, rawVal interface{}, logLevel ConfLogLevel) (err error) {
+func LoadConfig(confPath string, rawVal interface{}, logLevel LogLevel) (err error) {
 	confPath = strings.Replace(confPath, "\\", "/", -1)
 	fileDir := path.Dir(confPath)
 	fileFullName := path.Base(confPath)
