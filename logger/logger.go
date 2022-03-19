@@ -1,10 +1,11 @@
 package logger
 
 import (
+	"time"
+
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"time"
 )
 
 // FileConfig for logger
