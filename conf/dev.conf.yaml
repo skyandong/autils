@@ -4,5 +4,5 @@ app:
     http: 7001
     grpc: 7002
   register: true
-  registerDelay: 1s
+  register_delay: 1s
   controlPort: 7009

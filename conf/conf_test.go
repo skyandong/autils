@@ -1,18 +1,12 @@
 package conf
 
 import (
-	"os"
 	"path"
-	"path/filepath"
+	"runtime"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
-)
-
-const (
-	//configFolderName = "conf"
-	Env = "dev"
 )
 
 // Conf for the service
@@ -20,29 +14,23 @@ type Conf struct {
 	// App is the service
 	App *struct {
 		// Name is the service name
-		Name string `yaml:"name"`
+		Name string `mapstructure:"name"`
 		// Ports is the service ports
-		Ports map[string]int `yaml:"ports"`
+		Ports map[string]int `mapstructure:"ports"`
 		// Register self to consul
-		Register bool `yaml:"register"`
+		Register bool `mapstructure:"register"`
 		// RegisterDelay after serve
-		RegisterDelay time.Duration `yaml:"registerDelay"`
+		RegisterDelay time.Duration `mapstructure:"register_delay"`
 		// ControlPort is local control port
 		ControlPort int `yaml:"controlPort"`
-	} `yaml:"app"`
+	} `mapstructure:"app"`
 }
 
 func TestLoadConfig(t *testing.T) {
 	c := Conf{}
-	configDir := "config"
-	for i := 0; i < 3; i++ {
-		if info, err := os.Stat(configDir); err == nil && info.IsDir() {
-			break
-		}
-		configDir = filepath.Join("..", configDir)
-	}
-	configFileName := Env + ".conf.yaml"
-	configPath := path.Join(configDir, configFileName)
+	_, file, _, _ := runtime.Caller(0)
+	configFileName := "dev.conf.yaml"
+	configPath := path.Join(path.Dir(file), configFileName)
 	err := LoadConfig(configPath, &c, LevelInfo)
 	assert.NoError(t, err)
 

@@ -22,7 +22,7 @@ const (
 	LevelFatal
 )
 
-var SupportedExtensions = []string{"json", "toml", "yaml", "yml", "properties", "props", "prop", "hcl"}
+var SupportedExtensions = []string{"json", "toml", "yaml", "yml", "mapstructure", "properties", "props", "prop", "hcl"}
 
 func stringInSlice(a string, list []string) bool {
 	for _, b := range list {
